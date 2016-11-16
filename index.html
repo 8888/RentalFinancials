@@ -1,0 +1,70 @@
+
+<!doctype html>
+<html>
+<head>
+    <title>Rental Financials</title>
+</head>
+<body>
+    <table border="1">
+        <tr><td>
+            <label for="txtTax">Yearly Costs</label>:
+            <input id="txtTax" name="txtTax" type="text" size="2" value="3400"/>
+        </td><td>
+            <label for="txtExpense">Expense Rate</label>:
+            <input id="txtExpense" name="txtExpense" type="text" size="2" value="20"/>
+        </td><td>
+            <label for="txtMort">Mortgage Rate</label>:
+            <input id="txtMort" name="txtMort" type="text" size="2" value="5"/>
+        </td></tr><tr><td>
+            <label for="txtTerm">Term (years)</label>:
+            <input id="txtTerm" name="txtTerm" type="text" size="2" value="30"/>
+        </td><td>
+            <label for="txtProfitRate">Profit Rate</label>:
+            <input id="txtProfitRate" name="txtProfitRate" type="text" size="2" value="12"/>
+        </td><td>
+            <label for="txtReturn">Return Rate</label>:
+            <input id="txtReturn" name="txtReturn" type="text" size="2" value="7"/>
+        </td></tr>
+    </table>
+    <br />
+    <br />
+    <table border="1">
+        <tr>
+            <td>rent</td>
+            <td>expenses</td>
+            <td>profit</td>
+            <td>total costs</td>
+            <td>net</td>
+            <td>loan</td>
+            <td>down</td>
+            <td>price</td>
+            <td>Present Value Profit</td>
+            <td>Present Value Sale</td>
+            <td>Internal Rate of Return</td>
+        </tr>
+        <tr>
+            <td id='rRent'><input id="rent" size="2" value="1900"/></b></td>
+            <td id='rExpense'>380</td>
+            <td id='rProfit'>228</td>
+            <td id='rCosts'>891</td>
+            <td id='rNet'>1008</td>
+            <td id='rLoan'>187896</td>
+            <td id='rDown'>46974</td>
+            <td id='rPrice'>234870</td>
+            <td id='rPVP'>34270</td>
+            <td id='rPVS'>30854</td>
+            <td id='rIRR'>8.9</td>
+        </tr>
+    </table>
+    <script type="text/javascript" src="rentalFinancials.js"></script>
+    <script type="text/javascript">
+        'use strict';
+        // When the window is loaded
+            // Attach onclick listeners to input textboxes
+            // Link specific updates to financial formuals
+        
+        // Onclick functions which act as the controller between
+        // the view (html controls) and the model (financial js)
+    </script>
+</body>
+</html>

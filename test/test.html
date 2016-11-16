@@ -1,0 +1,59 @@
+
+<!doctype html>
+<html>
+<head>
+    <title>Test Rental Financials</title>
+</head>
+<body>
+    <script type="text/javascript" src="../rentalFinancials.js"></script>
+    <table border="1">
+        <tr>
+            <td>function</td>
+            <td>name</td>
+            <td>arguments</td>
+            <td>expected</td>
+            <td>actual</td>
+            <td>result</td>
+        </tr>
+        <script type="text/javascript">
+            'use strict';
+            // Step 1. Add new test case class
+            class npvFVTest {
+                constructor(name, rate, periods, payment, fv) {
+                    this.name = name;
+                    this.rate = rate;
+                    this.periods = periods;
+                    this.payment = payment;
+                    this.fv = fv;
+                }
+            }
+
+            // Step 2. Add detailed test names and data
+            let npvFVTestCases = [
+                new npvFVTest("Core", 4, 30, 1800, 100952.888),
+                new npvFVTest("Zero Rate", 0, 30, 150, 4500.00),
+                new npvFVTest("BAD TEST", 0, 30, 150, "4500")
+            ];
+
+            // Step 3. Run test cases and provide feedback
+            npvFVTestCases.forEach(function(t) {
+                document.write('<tr><td>NPV.FV</td><td>', t.name, '</td><td>');
+                document.write(t.rate, ', ', t.periods, ', ', t.payment, '</td><td>');
+                document.write(t.fv, '</td>');
+                try {
+                    let fv = NPV.FV(t.rate, t.periods, t.payment);
+                    document.write('<td>', fv, '</td>');
+                    if (fv === t.fv) {
+                        document.write('<td style="background-color: #6fe06f;">ok</td>');
+                    } else {
+                        document.write('<td style="background-color: red;">FAIL</td>');
+                    }
+                }
+                catch (e) {
+                    document.write('<td style="background-color: red;">EXCEPTION</td>');
+                }
+            });
+        </script>
+    </table>
+</body>
+</html>
