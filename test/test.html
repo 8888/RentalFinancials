@@ -28,11 +28,28 @@
                 }
             }
 
+            class npvPVTest {
+                constructor(name, rate, periods, fv, pv) {
+                    this.name = name;
+                    this.rate = rate;
+                    this.periods = periods;
+                    this.fv = fv;
+                    this.pv = pv;
+                }
+            }
+
             // Step 2. Add detailed test names and data
             let npvFVTestCases = [
                 new npvFVTest("Core", 4, 30, 1800, 100952.888),
                 new npvFVTest("Zero Rate", 0, 30, 150, 4500.00),
                 new npvFVTest("BAD TEST", 0, 30, 150, "4500")
+            ];
+
+            let npvPVTestCases = [
+                new npvPVTest("Core", 4, 30, 80000, 24665.49),
+                new npvPVTest("Zero Rate", 0, 30, 60000, 60000),
+                new npvPVTest("Zero Period", 4, 0, 5000, 5000),
+                new npvPVTest("BAD TEST", 0, 0, 0, "4500")
             ];
 
             // Step 3. Run test cases and provide feedback
@@ -44,6 +61,24 @@
                     let fv = NPV.FV(t.rate, t.periods, t.payment);
                     document.write('<td>', fv, '</td>');
                     if (fv === t.fv) {
+                        document.write('<td style="background-color: #6fe06f;">ok</td>');
+                    } else {
+                        document.write('<td style="background-color: red;">FAIL</td>');
+                    }
+                }
+                catch (e) {
+                    document.write('<td style="background-color: red;">EXCEPTION</td>');
+                }
+            });
+
+            npvPVTestCases.forEach(function(t) {
+                document.write('<tr><td>NPV.PV</td><td>', t.name, '</td><td>');
+                document.write(t.rate, ',', t.periods, ',', t.fv, '</td><td>');
+                document.write(t.pv, '</td>');
+                try {
+                    let pv = NPV.PV(t.rate, t.periods, t.fv);
+                    document.write('<td>', pv, '</td>');
+                    if (pv === t.pv) {
                         document.write('<td style="background-color: #6fe06f;">ok</td>');
                     } else {
                         document.write('<td style="background-color: red;">FAIL</td>');
