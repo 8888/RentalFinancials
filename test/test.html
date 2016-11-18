@@ -38,6 +38,16 @@
                 }
             }
 
+            class npvPMTTest {
+                constructor(name, rate, periods, pv, pmt) {
+                    this.name = name;
+                    this.rate = rate;
+                    this.periods = periods;
+                    this.pv = pv;
+                    this.pmt = pmt;
+                }
+            }
+
             // Step 2. Add detailed test names and data
             let npvFVTestCases = [
                 new npvFVTest("Core", 4, 30, 1800, 100952.888),
@@ -51,6 +61,12 @@
                 new npvPVTest("Zero Period", 4, 0, 5000, 5000),
                 new npvPVTest("BAD TEST", 0, 0, 0, "4500")
             ];
+
+            let npvPMTTestCases = [
+                new npvPMTTest("Core", 4, 30, 30000, 1734.90),
+                new npvPMTTest("Zero Rate", 0, 30, 30000, 1000),
+                new npvPMTTest("BAD TEST", 0, 0, 0, "4500")
+            ]
 
             // Step 3. Run test cases and provide feedback
             npvFVTestCases.forEach(function(t) {
@@ -79,6 +95,24 @@
                     let pv = NPV.PV(t.rate, t.periods, t.fv);
                     document.write('<td>', pv, '</td>');
                     if (pv === t.pv) {
+                        document.write('<td style="background-color: #6fe06f;">ok</td>');
+                    } else {
+                        document.write('<td style="background-color: red;">FAIL</td>');
+                    }
+                }
+                catch (e) {
+                    document.write('<td style="background-color: red;">EXCEPTION</td>');
+                }
+            });
+
+            npvPMTTestCases.forEach(function(t) {
+                document.write('<tr><td>NPV.PMT</td><td>', t.name, '</td><td>');
+                document.write(t.rate, ',', t.periods, ',', t.pv, '</td><td>');
+                document.write(t.pmt, '</td>');
+                try {
+                    let pmt = NPV.PMT(t.rate, t.periods, t.pv);
+                    document.write('<td>', pmt, '</td>');
+                    if (pmt === t.pmt) {
                         document.write('<td style="background-color: #6fe06f;">ok</td>');
                     } else {
                         document.write('<td style="background-color: red;">FAIL</td>');

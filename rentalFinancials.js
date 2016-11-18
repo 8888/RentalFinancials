@@ -21,15 +21,22 @@ class NPV {
     }
 
     static PV(rate, periods, futureValue) {
-        // Calculates the present value of received payments
+        // Calculates the present value of a future amount
         let rateDecimal = rate / 100;
         let pv = futureValue * (1 / Math.pow(1 + rateDecimal, periods));
         return rnd(pv, 2);
     }
 
     static PMT(rate, periods, presentValue) {
-        let pmt = 0;
-        return pmt;
+        // Calculates the payments needed to achieve a desired present value
+        // TO DO: Can this formula be rewritten to avoid a devide by zero case?
+        if (rate != 0) {
+            let rateDecimal = rate / 100;
+            var pmt = presentValue / ((1 - (Math.pow(1 + rateDecimal, periods * -1))) / rateDecimal);
+        } else {
+            var pmt = presentValue / periods;
+        }
+        return rnd(pmt, 2);
     }
 
     static IIR(payments, precision = 0.001) {
