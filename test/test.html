@@ -48,6 +48,14 @@
                 }
             }
 
+            class npvIRRTest {
+                constructor(name, payments, irr) {
+                    this.name = name;
+                    this.payments = payments;
+                    this.irr = irr;
+                }
+            }
+
             // Step 2. Add detailed test names and data
             let npvFVTestCases = [
                 new npvFVTest("Core", 4, 30, 1800, 100952.888),
@@ -66,6 +74,12 @@
                 new npvPMTTest("Core", 4, 30, 30000, 1734.90),
                 new npvPMTTest("Zero Rate", 0, 30, 30000, 1000),
                 new npvPMTTest("BAD TEST", 0, 0, 0, "4500")
+            ]
+
+            let npvIRRTestCases = [
+                new npvIRRTest("Core", [-40000,10800,10800,10800,10800,10800], 10.9),
+                new npvIRRTest("Zero Payments", [-0,0,0], 0),
+                new npvIRRTest("BAD TEST", [-0,0,0], "4500")
             ]
 
             // Step 3. Run test cases and provide feedback
@@ -113,6 +127,24 @@
                     let pmt = NPV.PMT(t.rate, t.periods, t.pv);
                     document.write('<td>', pmt, '</td>');
                     if (pmt === t.pmt) {
+                        document.write('<td style="background-color: #6fe06f;">ok</td>');
+                    } else {
+                        document.write('<td style="background-color: red;">FAIL</td>');
+                    }
+                }
+                catch (e) {
+                    document.write('<td style="background-color: red;">EXCEPTION</td>');
+                }
+            });
+
+            npvIRRTestCases.forEach(function(t) {
+                document.write('<tr><td>NPV.IRR</td><td>', t.name, '</td><td>');
+                document.write(t.payments, '</td><td>');
+                document.write(t.irr, '</td>');
+                try {
+                    let irr = NPV.IRR(t.payments);
+                    document.write('<td>', irr, '</td>');
+                    if (irr === t.irr) {
                         document.write('<td style="background-color: #6fe06f;">ok</td>');
                     } else {
                         document.write('<td style="background-color: red;">FAIL</td>');
