@@ -60,11 +60,68 @@
     <script type="text/javascript">
         'use strict';
         // When the window is loaded
-            // Attach onclick listeners to input textboxes
-            // Link specific updates to financial formuals
+        let inputIDs = ["txtTax", "txtExpense", "txtMort", "txtTerm", "txtProfitRate", "txtReturn", "rent"];
+        let displayIDs = ["rExpense", "rProfit", "rCosts", "rNet", "rLoan", "rDown", "rPrice", "rPVP", "rPVS", "rIRR"];
         
-        // Onclick functions which act as the controller between
-        // the view (html controls) and the model (financial js)
+        // Event listener
+        for (let i = 0; i < inputIDs.length; i++) {
+            document.getElementById(inputIDs[i]).addEventListener("input", function(){
+                let values = UPDATES.updateFromValues();
+                let userValues = UPDATES.createValuesObject(values);
+                let calculatedValues = UPDATES.performCalculations(userValues);
+                UPDATES.updateDisplay(calculatedValues);
+            });
+        }
+
+        class UPDATES {
+            static updateFromValues() {
+                // pulls the user inputed data from the DOM
+                // TO DO: Validate before pushing to array
+                for (let i = 0; i < inputIDs.length; i++) {
+                    var values = [];
+                    values.push(document.getElementById(inputIDs[i]).value);
+                }
+            return values;
+            }
+
+            static createValuesObject(values) {
+                // adds the user inputed data from a given array to an object
+                let userValues = {
+                    tax: values[0],
+                    expRate: values[1],
+                    mortRate: values[2],
+                    term: values[3],
+                    profRate: values[4],
+                    returnRate: values[5],
+                    rent: values[6]
+                }
+                return userValues;
+            }
+
+            static performCalculations(userValues) {
+                // performs calculations based upon user inputed data
+                let calculatedValues = {
+                    rExpense: 0,
+                    rProfit: 0,
+                    rCosts: 0,
+                    rNet: 0,
+                    rLoan: 0,
+                    rDown: 0,
+                    rPrice: 0,
+                    rPVP: 0, //Present Value Profit
+                    rPVS: 0, //Present Value Sale
+                    rIRR: 0 //Internal Rate of Return
+                }
+                return calculatedValues;
+            }
+
+            static updateDisplay(calculatedValues) {
+                // pushes the calculated values to the DOM
+                for (let i = 0; i < displayIDs.length; i++) {
+                    document.getElementById(displayIDs[i]).innerHTML = calculatedValues[displayIDs[i]];
+                }
+            }
+        }
     </script>
 </body>
 </html>
