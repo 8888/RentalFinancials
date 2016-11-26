@@ -47,13 +47,13 @@
             <td id='rExpense'>380</td>
             <td id='rProfit'>228</td>
             <td id='rCosts'>891</td>
-            <td id='rNet'>1008</td>
+            <td id='rNet'>1009</td>
             <td id='rLoan'>187896</td>
             <td id='rDown'>46974</td>
             <td id='rPrice'>234870</td>
             <td id='rPVP'>34270</td>
             <td id='rPVS'>30854</td>
-            <td id='rIRR'>8.9</td>
+            <td id='rIRR'>9.4</td>
         </tr>
     </table>
     <script type="text/javascript" src="rentalFinancials.js"></script>
@@ -76,7 +76,6 @@
         class UPDATES {
             static updateFromValues() {
                 // pulls the user inputed data from the DOM
-                // TO DO: Validate before pushing to array
                 var values = [];
                 for (let i = 0; i < inputIDs.length; i++) {
                     var value = parseInt(document.getElementById(inputIDs[i]).value);
@@ -108,8 +107,8 @@
                 let calculatedValues = {
                     rExpense: userValues.rent * (userValues.expRate / 100), // Rent * Exp rate
                     rProfit: userValues.rent * (userValues.profRate / 100), // Rent * Prof rate
-                    get rCosts() { // Yearly Costs/12 + expenses
-                        return userValues.tax / 12 + this.rExpense; 
+                    get rCosts() { // Yearly Costs/12 + expenses + profit
+                        return userValues.tax / 12 + this.rExpense + this.rProfit; 
                     },
                     get rNet() { // rent - total costs
                         return userValues.rent - this.rCosts;
@@ -129,16 +128,28 @@
                     get rPVS() { //Present Value Sale: PV(yearly return rate, term in years, price)
                         return NPV.PV(userValues.returnRate, userValues.term, this.rPrice)
                     },
-                    rIRR: 0 //Internal Rate of Return
+                    get cashflow() { //Returns a cash flow array
+                        var profitYear = this.rProfit * 12;
+                        var cf = [-1 * this.rDown + profitYear]; // first year: -down +profit
+                        for (let t = 0; t < userValues.term - 2; t++) { // first and last year are not included
+                            cf.push(profitYear);
+                        }
+                        cf.push(profitYear + this.rPrice); // last year: profit + price
+                        return cf;
+                    },
+                    get rIRR() { //Internal Rate of Return: IRR(cashflow)
+                        return NPV.IRR(this.cashflow);
+                    }
                 }
                 return calculatedValues;
             }
 
             static updateDisplay(calculatedValues) {
                 // pushes the calculated values to the DOM
-                for (let i = 0; i < displayIDs.length; i++) {
-                    document.getElementById(displayIDs[i]).innerHTML = calculatedValues[displayIDs[i]];
+                for (let i = 0; i < displayIDs.length-1; i++) { // length-1: IRR does not get rounded
+                    document.getElementById(displayIDs[i]).innerHTML = Math.round(calculatedValues[displayIDs[i]]);
                 }
+                document.getElementById("rIRR").innerHTML = calculatedValues.rIRR;
             }
         }
     </script>
