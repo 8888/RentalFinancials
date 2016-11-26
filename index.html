@@ -106,15 +106,29 @@
             static performCalculations(userValues) {
                 // performs calculations based upon user inputed data
                 let calculatedValues = {
-                    rExpense: 0,
-                    rProfit: 0,
-                    rCosts: 0,
-                    rNet: 0,
-                    rLoan: 0,
-                    rDown: 0,
-                    rPrice: 0,
-                    rPVP: 0, //Present Value Profit
-                    rPVS: 0, //Present Value Sale
+                    rExpense: userValues.rent * (userValues.expRate / 100), // Rent * Exp rate
+                    rProfit: userValues.rent * (userValues.profRate / 100), // Rent * Prof rate
+                    get rCosts() { // Yearly Costs/12 + expenses
+                        return userValues.tax / 12 + this.rExpense; 
+                    },
+                    get rNet() { // rent - total costs
+                        return userValues.rent - this.rCosts;
+                    },
+                    get rLoan() { // PV_AN(monthly rate, term in months, net)
+                        return NPV.PV_AN(userValues.mortRate/12, userValues.term*12, this.rNet);
+                    },
+                    get rDown() { // 20% down
+                        return this.rLoan * 20 / 80;
+                    },
+                    get rPrice() { // loan + down
+                        return this.rLoan + this.rDown;
+                    },
+                    get rPVP() { //Present Value Profit: PV_AN(monthly return rate, term in months, profit)
+                        return NPV.PV_AN(userValues.returnRate/12, userValues.term*12, this.rProfit);
+                    },
+                    get rPVS() { //Present Value Sale: PV(yearly return rate, term in years, price)
+                        return NPV.PV(userValues.returnRate, userValues.term, this.rPrice)
+                    },
                     rIRR: 0 //Internal Rate of Return
                 }
                 return calculatedValues;

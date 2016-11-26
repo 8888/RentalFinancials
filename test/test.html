@@ -38,6 +38,16 @@
                 }
             }
 
+            class npvPV_ANTest {
+                constructor(name, rate, periods, payment, pv) {
+                    this.name = name;
+                    this.rate = rate;
+                    this.periods = periods;
+                    this.payment = payment;
+                    this.pv = pv;
+                }
+            }
+
             class npvPMTTest {
                 constructor(name, rate, periods, pv, pmt) {
                     this.name = name;
@@ -68,6 +78,12 @@
                 new npvPVTest("Zero Rate", 0, 30, 60000, 60000),
                 new npvPVTest("Zero Period", 4, 0, 5000, 5000),
                 new npvPVTest("BAD TEST", 0, 0, 0, "4500")
+            ];
+
+            let npvPV_ANTestCases = [
+                new npvPV_ANTest("Core", 0.33333, 360, 487, 102008.12),
+                new npvPV_ANTest("Zero Rate", 0, 360, 487, 175320),
+                new npvPV_ANTest("BAD TEST", 0.33333, 360, 487, "102008.12")
             ];
 
             let npvPMTTestCases = [
@@ -107,6 +123,24 @@
                 document.write(t.pv, '</td>');
                 try {
                     let pv = NPV.PV(t.rate, t.periods, t.fv);
+                    document.write('<td>', pv, '</td>');
+                    if (pv === t.pv) {
+                        document.write('<td style="background-color: #6fe06f;">ok</td>');
+                    } else {
+                        document.write('<td style="background-color: red;">FAIL</td>');
+                    }
+                }
+                catch (e) {
+                    document.write('<td style="background-color: red;">EXCEPTION</td>');
+                }
+            });
+
+            npvPV_ANTestCases.forEach(function(t) {
+                document.write('<tr><td>NPV.PV_AN</td><td>', t.name, '</td><td>');
+                document.write(t.rate, ', ', t.periods, ', ', t.payment, '</td><td>');
+                document.write(t.pv, '</td>');
+                try {
+                    let pv = NPV.PV_AN(t.rate, t.periods, t.payment);
                     document.write('<td>', pv, '</td>');
                     if (pv === t.pv) {
                         document.write('<td style="background-color: #6fe06f;">ok</td>');

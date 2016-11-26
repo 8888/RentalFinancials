@@ -9,7 +9,7 @@ function rnd(base, percision) {
 
 class NPV {
     static FV(rate, periods, payment) {
-        // Calculates the future value of cashflow
+        // Calculates the future value of an annuity
         // TO DO: Can this formula be rewritten to avoid a devide by zero case?
         if (rate != 0) {
             let rateDecimal = rate / 100;
@@ -21,9 +21,20 @@ class NPV {
     }
 
     static PV(rate, periods, futureValue) {
-        // Calculates the present value of a future amount
+        // Calculates the present value of a single future amount
         let rateDecimal = rate / 100;
         let pv = futureValue * (1 / Math.pow(1 + rateDecimal, periods));
+        return rnd(pv, 2);
+    }
+
+    static PV_AN(rate, periods, payment) {
+        // Calculates the present value of an annuity
+        if (rate != 0) {
+            let rateDecimal = rate / 100;
+            var pv = payment * ((1 - (Math.pow(1 + rateDecimal, periods * -1))) / rateDecimal);
+        } else {
+            var pv = payment * periods;
+        }
         return rnd(pv, 2);
     }
 
