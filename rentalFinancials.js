@@ -2,9 +2,13 @@
 
 function rnd(base, percision) {
     // round a number to the giving amount of decimal places
-    let x = Math.pow(10, percision);
-    let result = Math.round(base * x) / x;
-    return result;
+    if (percision > 0) {
+        let x = Math.pow(10, percision);
+        let result = Math.round(base * x) / x;
+        return result;
+    } else {
+        return Math.round(base);
+    }
 }
 
 class NPV {
@@ -84,6 +88,9 @@ class NPV {
 
             if ((interval > 0.0) && (npv < 0.0)) break;
             if ((interval < 0.0) && (npv > 0.0)) break;
+            if (interest > 25) { // This cuts off extreme cases
+                return ">25.0";
+            }
         }
         return rnd(((interest - interval) * 100.0), precision);
     }
