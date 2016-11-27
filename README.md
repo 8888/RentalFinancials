@@ -16,5 +16,5 @@ The user interface, [index.html](https://betterin30days.github.io/RentalFinancia
 Tests were written before each calculation function to ensure proper output. [test/test.html](https://betterin30days.github.io/RentalFinancials/test/test) displays the lists of tests including the tested function, test name, arguments, expedted output, actual output, and a color-coded test result. 
 
 # Screen Shots
-<img src="http://betterin30days.github.io/rentalfinancials/index.png"/><br>
-<img src="http://betterin30days.github.io/rentalfinancials/tests.png"/><br>
+<img src="http://betterin30days.github.io/rentalfinancials/screenshots/index.png"/><br>
+<img src="http://betterin30days.github.io/rentalfinancials/screenshots/tests.png"/><br>
