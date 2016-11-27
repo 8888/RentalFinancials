@@ -41,12 +41,15 @@ class NPV {
     static PMT(rate, periods, presentValue) {
         // Calculates the payments needed to achieve a desired present value
         // TO DO: Can this formula be rewritten to avoid a devide by zero case?
-        // TO DO: periods = 0 also creates a divide by zero case
-        if (rate != 0) {
-            let rateDecimal = rate / 100;
-            var pmt = presentValue / ((1 - (Math.pow(1 + rateDecimal, periods * -1))) / rateDecimal);
+        if (periods != 0) {   
+            if (rate != 0) {
+                let rateDecimal = rate / 100;
+                var pmt = presentValue / ((1 - (Math.pow(1 + rateDecimal, periods * -1))) / rateDecimal);
+            } else {
+                var pmt = presentValue / periods;
+            }
         } else {
-            var pmt = presentValue / periods;
+            var pmt = presentValue;
         }
         return rnd(pmt, 2);
     }
