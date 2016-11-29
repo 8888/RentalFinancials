@@ -69,34 +69,29 @@
             // Step 2. Add detailed test names and data
             let npvFVTestCases = [
                 new npvFVTest("Core", 4, 30, 1800, 100952.888),
-                new npvFVTest("Zero Rate", 0, 30, 150, 4500.00),
-                new npvFVTest("BAD TEST", 0, 30, 150, "4500")
+                new npvFVTest("Zero Rate", 0, 30, 150, 4500.00)
             ];
 
             let npvPVTestCases = [
                 new npvPVTest("Core", 4, 30, 80000, 24665.49),
                 new npvPVTest("Zero Rate", 0, 30, 60000, 60000),
-                new npvPVTest("Zero Period", 4, 0, 5000, 5000),
-                new npvPVTest("BAD TEST", 0, 0, 0, "4500")
+                new npvPVTest("Zero Period", 4, 0, 5000, 5000)
             ];
 
             let npvPV_ANTestCases = [
                 new npvPV_ANTest("Core", 0.33333, 360, 487, 102008.12),
-                new npvPV_ANTest("Zero Rate", 0, 360, 487, 175320),
-                new npvPV_ANTest("BAD TEST", 0.33333, 360, 487, "102008.12")
+                new npvPV_ANTest("Zero Rate", 0, 360, 487, 175320)
             ];
 
             let npvPMTTestCases = [
                 new npvPMTTest("Core", 4, 30, 30000, 1734.90),
                 new npvPMTTest("Zero Rate", 0, 30, 30000, 1000),
-                new npvPMTTest("Zero Period", 4, 0, 30000, 30000),
-                new npvPMTTest("BAD TEST", 0, 0, 0, "4500")
+                new npvPMTTest("Zero Period", 4, 0, 30000, 30000)
             ]
 
             let npvIRRTestCases = [
                 new npvIRRTest("Core", [-40000,10800,10800,10800,10800,10800], 10.9),
-                new npvIRRTest("Zero Payments", [-0,0,0], 0),
-                new npvIRRTest("BAD TEST", [-0,0,0], "4500")
+                new npvIRRTest("Zero Payments", [-0,0,0], 0)
             ]
 
             // Step 3. Run test cases and provide feedback

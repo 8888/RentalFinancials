@@ -39,6 +39,7 @@
             <td>down</td>
             <td>price</td>
             <td>Present Value Profit</td>
+            <td>Future Value Profit</td>
             <td>Present Value Sale</td>
             <td>Internal Rate of Return</td>
         </tr>
@@ -52,6 +53,7 @@
             <td id='rDown'>46974</td>
             <td id='rPrice'>234870</td>
             <td id='rPVP'>34270</td>
+            <td id='rFVP'>258445</td>
             <td id='rPVS'>30854</td>
             <td id='rIRR'>9.4</td>
         </tr>
@@ -61,7 +63,7 @@
         'use strict';
         // When the window is loaded
         let inputIDs = ["txtTax", "txtExpense", "txtMort", "txtTerm", "txtProfitRate", "txtReturn", "rent"];
-        let displayIDs = ["rExpense", "rProfit", "rCosts", "rNet", "rLoan", "rDown", "rPrice", "rPVP", "rPVS", "rIRR"];
+        let displayIDs = ["rExpense", "rProfit", "rCosts", "rNet", "rLoan", "rDown", "rPrice", "rPVP", "rFVP", "rPVS", "rIRR"];
         
         // Event listener
         for (let i = 0; i < inputIDs.length; i++) {
@@ -124,6 +126,9 @@
                     },
                     get rPVP() { //Present Value Profit: PV_AN(monthly return rate, term in months, profit)
                         return NPV.PV_AN(userValues.returnRate/12, userValues.term*12, this.rProfit);
+                    },
+                    get rFVP() { //Future Value Profit: FV(yearly return rate, term in years, yearly profit)
+                        return NPV.FV(userValues.returnRate, userValues.term, this.rProfit * 12);
                     },
                     get rPVS() { //Present Value Sale: PV(yearly return rate, term in years, price)
                         return NPV.PV(userValues.returnRate, userValues.term, this.rPrice)
