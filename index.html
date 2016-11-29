@@ -41,6 +41,7 @@
             <td>Present Value Profit</td>
             <td>Future Value Profit</td>
             <td>Present Value Sale</td>
+            <td>Monthly Investment Equal to Sale</td>
             <td>Internal Rate of Return</td>
         </tr>
         <tr>
@@ -55,6 +56,7 @@
             <td id='rPVP'>34270</td>
             <td id='rFVP'>258445</td>
             <td id='rPVS'>30854</td>
+            <td id='rPMTS'>205</td>
             <td id='rIRR'>9.4</td>
         </tr>
     </table>
@@ -63,7 +65,7 @@
         'use strict';
         // When the window is loaded
         let inputIDs = ["txtTax", "txtExpense", "txtMort", "txtTerm", "txtProfitRate", "txtReturn", "rent"];
-        let displayIDs = ["rExpense", "rProfit", "rCosts", "rNet", "rLoan", "rDown", "rPrice", "rPVP", "rFVP", "rPVS", "rIRR"];
+        let displayIDs = ["rExpense", "rProfit", "rCosts", "rNet", "rLoan", "rDown", "rPrice", "rPVP", "rFVP", "rPVS", "rPMTS", "rIRR"];
         
         // Event listener
         for (let i = 0; i < inputIDs.length; i++) {
@@ -132,6 +134,9 @@
                     },
                     get rPVS() { //Present Value Sale: PV(yearly return rate, term in years, price)
                         return NPV.PV(userValues.returnRate, userValues.term, this.rPrice)
+                    },
+                    get rPMTS() { //Montly investment to achieve same PV as sale of property: PMT(monthly return rate, term in months, PVS)
+                        return NPV.PMT(userValues.returnRate/12, userValues.term*12, this.rPVS);
                     },
                     get cashflow() { //Returns a cash flow array
                         var profitYear = this.rProfit * 12;
